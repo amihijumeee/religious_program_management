@@ -1,0 +1,273 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MASJID BANDAR RINCHING</title>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+    
+        html, body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f4f4f4;
+            height: 100%;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+        }
+
+        header {
+            background: #232a31;
+            color: white;
+            padding: 20px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        header strong {
+            font-size: 20px;
+        }
+
+        nav {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500px;
+            border-radius: 5px;
+            padding: 6px 12px;
+        }
+
+        nav a:hover, nav a.active {
+            background-color: #3295ff;
+            color: white;
+            transition: 0.3s;
+        }
+
+        .admin_login {
+            position: relative;
+            cursor: pointer;
+        }
+
+        .admin_login img {
+            width: 36px;
+            height: 36px;
+        }
+
+        .dropdown-menu {
+            display: none;
+            position: absolute;
+            top: 110%;
+            right: 0;
+            background-color: #232a31;
+            color: #fff;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            border-radius: 4px;
+            z-index: 10;
+            overflow: hidden;
+            flex-direction: column;
+        }
+
+        .dropdown-menu a {
+            padding: 10px 15px;
+            text-decoration: none;
+            padding: 10px 15px;
+            display: block;
+        }
+
+        .dropdown-menu a:hover {
+            background-color: #e6f0ff; 
+            color: #004999;           
+        }
+
+        main {
+            flex: 1;
+        }
+
+        .login-wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 60px 20px;
+            min-height: calc(100vh - 160px); 
+        }
+
+        .login-container {
+            background-color: white;
+            padding: 40px 30px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+            border-radius: 10px;
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .login-container h2 {
+            text-align: center;
+            margin-bottom: 25px;
+            color: #232a31;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            font-weight: 600;
+            display: block;
+            margin-bottom: 5px;
+            color: #555;
+        }
+
+        input[type="text"],
+        input[type="password"] {
+            width: 100%;
+            padding: 12px 10px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 15px;
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 12px;
+            background-color: #0066cc;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-weight: bold;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .login-btn:hover {
+            background-color: #004999;
+        }
+
+        .register-link {
+            text-align: center;
+            margin-top: 15px;
+        }
+
+        .register-link a {
+            color: #0066cc;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .error-msg {
+            color: red;
+            font-size: 14px;
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        footer {
+            background: #1e2b3a;
+            color: white;
+            text-align: center;
+            padding: 30px 15px;
+        }
+
+        footer h3 {
+            margin-top: 0;
+        }
+
+        footer p {
+            margin-top: 8px 0;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div><strong>MASJID BANDAR RINCHING</strong></div>
+        <nav>
+            <a href="{% url 'homepage' %}">HOME</a>
+            <a href="{% url 'program_list' %}">PROGRAM</a>
+            <a href="{% url 'feedback' %}">FEEDBACK</a>
+            <div class="admin_login" id="adminToggle">
+               <img src="{% static 'admin_login1.png' %}">
+                    <div class="dropdown-menu" id="adminDropdown">
+                        <a href="{% url 'admin_login' %}">ADMIN LOGIN</a>
+                        <a href="{% url 'instructor_login' %}">INSTRUCTOR LOGIN</a>
+                    </div>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <div class="login-wrapper">
+        <div class="login-container">
+            <h2>ADMIN LOGIN</h2>
+
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="error-msg">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+
+            <form method="POST">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="username">USERNAME</label>
+                    <input type="text" name="username" id="username" required>
+                </div>
+            
+                <div class="form-group">
+                    <label for="password">PASSWORD</label>
+                    <input type="password" name="password" id="password" required>
+                </div>
+
+                <button class="login-btn" type="submit">LOGIN</button>
+            </form>
+
+            <div class="register-link">
+                <p>Don't have an admin account?</p>
+                <button class="register-btn", type="submit"> <a href="{% url 'admin_register' %}">CREATE NOW</a></button>
+            </div>
+        </div>
+    </div>
+    </main>
+
+    <footer>
+        <h3>MASJID BANDAR RINCHING</h3>
+        <p>Bandar Rinching</p>
+        <p>Email: masjidbandarrinching@gmail.com</p>
+        <p>&copy; 2025 Masjid Bandar Rinching. All rights reserved</p>
+    </footer>
+
+</body>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const toggle = document.getElementById("adminToggle");
+        const dropdown = document.getElementById("adminDropdown");
+
+        toggle.addEventListener("click", function (e) {
+            dropdown.style.display = dropdown.style.display === "flex" ? "none" : "flex";
+            e.stopPropagation(); 
+        });
+
+        document.addEventListener("click", function (e) {
+            if (!toggle.contains(e.target)) {
+                dropdown.style.display = "none";
+            }
+        });
+    });
+</script>
+
+</html>

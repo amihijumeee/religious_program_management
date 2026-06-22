@@ -1,0 +1,153 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MASJID BANDAR RINCHING</title>
+
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        .images {
+            margin: 20px;
+            position: absolute;
+            top: 10px;
+            left: 10px;
+        }
+
+        .images img {
+            width: 40px;
+            height: 40px;
+            cursor: pointer;
+        }
+
+
+        main {
+            flex: 1;
+            margin-top: 10%;
+        }
+
+        .container {
+            background: white;
+            max-width: 600px;
+            margin: 40px auto;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+        }
+
+        h2 {
+            text-align: center;
+            color: #232a31;
+        }
+        
+        label {
+            display: block;
+            margin-top: 15px;
+            font-weight: bold;
+        }
+
+        input, textarea, select {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+        }
+
+        button {
+            background: #0066cc;
+            color: white;
+            border: none;
+            padding: 12px;
+            width: 100%;
+            margin-top: 20px;
+            border-radius: 6px;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background: #004999;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="images">
+        <a href="{% url 'dashboard_program'%}">
+            <img src="{% static 'arrow.png' %}" alt="back">
+        </a>
+    </div>
+
+    <main>
+        <div class="container">
+        <h2>EDIT PROGRAM</h2>
+        <form method="POST">
+            {% csrf_token %}
+
+            <label>TITLE</label>
+            <input type="text" name="progTitle" value="{{program.progTitle}}" required>
+
+            <label>DESCRIPTION</label>
+            <textarea name="progDescription" required>{{program.progDescription}}</textarea>
+
+            <label>DATE</label>
+            <input type="date" name="progDate" value="{{program.progDate|date:'Y-m-d'}}" required>
+
+            <label>TIME</label>
+            <input type="time" name="progTime" value="{{program.progTime|time:'H:i'}}" required>
+
+            <label>INSTRUCTOR</label>
+            <select name="progInstructor">
+                {% for instructor in instructors %}
+                    <option value="{{instructor.insId }}" {% if instructor.insId == programInstructor.insId %}selected{% endif %}
+                    >{{ instructor.insName }}</option>
+                {% endfor %}
+            </select>
+
+            <label>VENUE</label>
+            <input type="text" name="progVenue" value="{{program.progVenue}}" required>
+
+            <label>CAPACITY</label>
+            <input type="number" name="progCapacity" required min="1" value="{{program.progCapacity}}" required>
+
+            <label>REGISTRATION</label>
+            <select name="progRegistration" required>
+                <option value="True" {% if program.progRegistration %}selected{% endif %}>YES</option>
+                <option value="False" {% if not program.progRegistration %}selected{% endif %}>NO</option>
+            </select>
+
+            <button type="submit" onclick="showSuccess()">SAVE CHANGES</button>
+        </form>
+        </div>
+    </main>
+
+    <script>
+        function showSuccess() {
+            const title = document.querySelector('[name="progTitle"]').value.trim();
+            const description = document.querySelector('[name="progDescription"]').value.trim();
+            const date = document.querySelector('[name="progDate"]').value;
+            const time = document.querySelector('[name="progTime"]').value;
+            const venue = document.querySelector('[name="progVenue"]').value.trim();
+            const capacity = document.querySelector('[name="progCapacity"]').value;
+
+        if (!title || !description || !date || !time || !venue || !capacity) {
+            alert("Please fill in all required fields!");
+            return false;
+        }
+
+        alert("Successfully Edit!");
+        return true;
+    }
+    </script>
+</body>
+</html>
+
+

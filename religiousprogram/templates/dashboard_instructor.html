@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MASJID BANDAR RINCHING</title>
+    
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        .container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        .sidebar {
+            width: 220px;
+            background-color: #232a31;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+            gap: 20px;
+        }
+
+        .sidebar .brand {
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .sidebar nav {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .sidebar nav a {
+            color: white;
+            text-decoration: none;
+            padding: 10px;
+            border-radius: 4px;
+        }
+
+        .sidebar nav a:hover,
+        .sidebar nav a.active {
+            background-color: #004999;
+        }
+
+        .sidebar .welcome-msg {
+            font-size: 20px;
+            font-weight: bold;
+            color: #e0e0e0;
+        }
+
+
+        main.dashboard {
+            flex-grow: 1;
+            padding: 40px 30px;
+            width: 100%;
+        }
+
+        h2 {
+            text-align: center;
+        }
+
+        table {
+            width: 100%;
+            max-width: 1500px;
+            margin: auto;
+            border-collapse: collapse;
+            background: white;
+        }
+        
+
+        th,td {
+            padding: 12px;
+            border: 1px solid#ccc;
+            text-align: left;
+        }
+
+        th {
+            background: #232a31;
+            color: white;
+        }
+
+        button.delete {
+            background-color: #fd220a;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button.edit {
+            background-color: #04b004;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button.delete:hover {
+            background-color: #c0392b;
+        }
+
+        button.edit:hover {
+            background-color: #06bb06;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <aside class="sidebar">
+            <div class="brand">
+                <strong>MASJID BANDAR RINCHING</strong>
+            </div>
+            
+            <div class="welcome-msg">
+                Welcome, {{ request.user.username }}!
+            </div>
+            
+                <nav>
+                <a href="{% url 'admin_dashboard' %}">Dashboard</a>
+                <a href="{% url 'addprogram' %}">Add Program</a>
+                <a href="{% url 'add_instructor' %}">Add Instructor</a>
+                <a href="{% url 'dashboard_program' %}">Manage Program</a>
+                <a href="{% url 'dashboard_register' %}">Manage Registration</a>
+                <a href="#" class="active">Manage Instructor</a>
+                <a href="{% url 'dashboard_feedback' %}">Manage Feedback</a>
+                <a href="{% url 'homepage' %}">Logout</a>
+            </nav>
+        </aside>
+
+        <main class="dashboard">
+            <h2>INSTRUCTOR LIST</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>IC</th>
+                            <th>Email</th>
+                            <th>Phone Number</th>
+                            <th>Edit</th>
+                            <th>Delete</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        {% for instructor in instructor_list %}
+                        <tr>
+                            <td>{{ instructor.insId }}</td>
+                            <td>{{ instructor.insName }}</td>
+                            <td>{{ instructor.insIc }}</td>
+                            <td>{{ instructor.insEmail }}</td>
+                            <td>{{ instructor.insNumber }}</td>
+                            <td>
+                                <a href="{% url 'edit_instructor' instructor.insId %}">
+                                    <button type="submit" class="edit">Edit</button></td>
+                                </a>
+                            <td><button onclick="deleteInstructor('{{instructor.insId}}')" class="delete">Delete</button></td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+    </main>
+    
+    <script>
+        function deleteInstructor(insId) {
+            if (confirm("Are you sure you want to delete this instructor?"))
+            fetch(`/program/deleteinstructor/${insId}/`,{
+                method: 'DELETE',
+                headers: {
+                    'X-CSRFToken': '{{csrf_token}}'
+                }
+            })
+            .then(response => {
+                if(response.ok) {
+                    alert('Instructor Delete Succesfully!');
+                    location.reload();
+                }
+                else {
+                    alert("Error")
+                }
+            })
+        }
+    </script>
+
+
+</body>
+</html>
+
+
+

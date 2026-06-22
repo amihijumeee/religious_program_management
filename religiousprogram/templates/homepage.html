@@ -1,0 +1,383 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MASJID BANDAR RINCHING</title>
+
+    {% load static %}
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+    
+        html, body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f4f4f4;
+            height: 100%;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+        }
+
+        header {
+            background: #232a31;
+            color: white;
+            padding: 20px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        header strong {
+            font-size: 20px;
+        }
+
+        nav {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500px;
+            border-radius: 5px;
+            padding: 6px 12px;
+        }
+
+        nav a:hover, nav a.active {
+            background-color: #3295ff;
+            color: white;
+            transition: 0.3s;
+        }
+
+        .admin_login {
+            position: relative;
+            cursor: pointer;
+        }
+
+        .admin_login img {
+            width: 36px;
+            height: 36px;
+        }
+
+        .dropdown-menu {
+            display: none;
+            position: absolute;
+            top: 110%;
+            right: 0;
+            background-color: #232a31;
+            color: #fff;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            border-radius: 4px;
+            z-index: 10;
+            overflow: hidden;
+            flex-direction: column;
+        }
+
+        .dropdown-menu a {
+            padding: 10px 15px;
+            text-decoration: none;
+            padding: 10px 15px;
+            display: block;
+        }
+
+        .dropdown-menu a:hover {
+            background-color: #e6f0ff; 
+            color: #004999;           
+        }
+        
+        .hero {
+            background-image: url("{% static 'prayerroom.jpeg' %}");
+            background-size: cover;
+            background-position: center;
+            height: 100vh;
+            position: relative;
+            display: flex;
+            align-items: center;
+            padding-left: 60px;
+            color: white;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .hero::after {
+            content: "";
+            background-color: rgba(0, 0, 0, 0.4);
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 100%;
+            z-index: 1;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-content h1 {
+            font-size: 40px;
+            margin-bottom: 10px;
+        }
+
+        .hero-content p {
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
+
+        .hero-content a {
+            background-color: #3295ff;
+            color: white;
+            padding: 12px 25px;
+            text-decoration: none;
+            font-weight: bold;
+            border-radius: 5px;
+            transition: 0.3s;
+        }
+
+        .hero-content a:hover {
+            background-color: #1e7fd1;
+        }
+
+
+        .section {
+            padding: 50px 20px;
+            background: #f5f8fc;
+        }
+
+        .about-wrapper {
+            max-width: 1100px;
+            margin: auto;
+            background: #fff;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+        }
+
+        .content h2 {
+            font-size: 28px;
+            margin-bottom: 15px;
+            color: #002855;
+        }
+
+        .content p {
+            line-height: 1.6;
+            font-size: 16px;
+            color: #444;
+        }
+
+        .mission-vision {
+            margin-top: 30px;
+        }
+
+        .mission-vision h3 {
+            color: #004999;
+            margin-top: 20px;
+        }
+
+        .mission-vision p {
+            margin-bottom: 10px;
+            line-height: 1.6;
+            color: #444;
+        }
+
+        .gallery {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin: 30px 0;
+            flex-wrap: wrap;
+        }
+
+        .gallery img {
+            width: 30%;
+            min-width: 300px;
+            height: auto;
+            object-fit: cover;
+            border-radius: 10px;
+            box-shadow:  0 4px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        .services {
+            display: flex;
+            gap: 20px;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            margin-top: 30px;
+        }
+
+        .service-box {
+            flex: 1 1 30%;
+            background: #eef5ff;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .service-box:hover {
+            transform: translateY(-5px);
+        }
+
+        .service-box h4 {
+            color: #004999;
+            margin-bottom: 10px;
+        }
+
+        .service-box p {
+            color: #333;
+            font-size: 14px;
+        }
+
+        .quote-box {
+            background: #dff3f9;
+            border-left: 5px solid #0077cc;
+            padding: 25px;
+            margin-top: 40px;
+            font-style: italic;
+            border-radius: 8px;
+        }
+
+        .quote-box blockquote {
+            margin: 0;
+            font-size: 16px;
+            color: #333;
+        }
+
+        .quote-box span {
+            display: block;
+            margin-top: 10px;
+            text-align: right;
+            font-weight: bold;
+            color: #004999;
+        }
+
+        footer {
+            background: #1e2b3a;
+            color: white;
+            text-align: center;
+            padding: 30px 15px;
+        }
+
+        footer h3 {
+            margin-top: 0;
+        }
+
+        footer p {
+            margin-top: 8px 0;
+        }
+
+    </style>
+</head>
+<body>
+
+    <header>
+        <div><strong>MASJID BANDAR RINCHING</strong></div>
+        <nav>
+            <a href="#" class="active">HOME</a>
+            <a href="{% url 'program_list' %}">PROGRAM</a>
+            <a href="{% url 'feedback' %}">FEEDBACK</a>
+            <div class="admin_login" id="adminToggle">
+               <img src="{% static 'admin_login1.png' %}">
+                    <div class="dropdown-menu" id="adminDropdown">
+                        <a href="{% url 'admin_login' %}">ADMIN LOGIN</a>
+                        <a href="{% url 'instructor_login' %}">INSTRUCTOR LOGIN</a>
+                    </div>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section class="hero">
+                <div class="hero-content">
+                    <h1>WELCOME TO OUR MASJID</h1>
+                    <p>A place of worship, learning and community</p>
+                    <a href="{% url 'program_list' %}">View Program</a>
+                </div>
+        </section>
+
+    <section class="section">
+        <div class="about-wrapper">
+            <div class="content">
+                <h2>About Us</h2>
+                <p>
+                    Masjid Bandar Rinching serves as a hub for spiritual growth, community service and Islamic education. Located in the Semenyih, our masjid welcomes people of all backgrounds and provides a speace for prayer, lectures, family events and youth programs.
+                </p>
+            </div>
+
+            <div class="mission-vision">
+                <h3>Our Mission</h3>
+                <p>To nurture a strong, compassionate, and knowledgeable Muslim community through religious guidance, education, and service.</p>
+
+                <h3>Our Vision</h3>
+                <p>To be a welcoming center of Islamic faith, fostering unity and serving as a beacon of hope and spirituality for all.</p>
+            </div>
+
+            <div class="gallery">
+                <img src="{% static 'event1.jpeg' %}"  alt="Event 1">
+                <img src="{% static 'event2.jpeg' %}" alt="Event 2">
+                <img src="{% static 'masjid2.jpeg' %}" alt="Prayer Hall">
+            </div>
+
+            <div class="services">
+                <div class="service-box">
+                    <h4>🕌 Daily Prayers</h4>
+                    <p>5 times congregational prayer</p>
+                </div>
+                <div class="service-box">
+                    <h4>📖 Kuliah and Islamic Programs</h4>
+                    <p>Quranic studies and Islamic talks</p>
+                </div>
+                <div class="service-box">
+                    <h4>🌟 Youth Programs</h4>
+                    <p>Community activities for teens</p>
+                </div>
+            </div>
+
+            <div class="quote-box">
+                <blockquote>
+                    “The best among you are those who bring greatest benefit to others.” <br><span>— Prophet Muhammad (PBUH)</span>
+                </blockquote>
+            </div>
+        </div>    
+    </section>
+    </main>
+
+    <footer>
+        <h3>MASJID BANDAR RINCHING</h3>
+        <p>Bandar Rinching</p>
+        <p>Email: masjidbandarrinching@gmail.com</p>
+        <p>&copy; 2025 Masjid Bandar Rinching. All rights reserved</p>
+    </footer>
+
+</body>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const toggle = document.getElementById("adminToggle");
+        const dropdown = document.getElementById("adminDropdown");
+
+        toggle.addEventListener("click", function (e) {
+            dropdown.style.display = dropdown.style.display === "flex" ? "none" : "flex";
+            e.stopPropagation(); 
+        });
+
+        document.addEventListener("click", function (e) {
+            if (!toggle.contains(e.target)) {
+                dropdown.style.display = "none";
+            }
+        });
+    });
+</script>
+
+</html>

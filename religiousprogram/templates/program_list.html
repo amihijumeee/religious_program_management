@@ -1,0 +1,357 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MASJID BANDAR RINCHING</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+    
+        html, body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f4f4f4;
+            height: 100%;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+        }
+
+        header {
+            background: #232a31;
+            color: white;
+            padding: 20px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        header strong {
+            font-size: 20px;
+        }
+
+        nav {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500px;
+            border-radius: 5px;
+            padding: 6px 12px;
+        }
+
+        nav a:hover, nav a.active {
+            background-color: #3295ff;
+            color: white;
+            transition: 0.3s;
+        }
+
+        .admin_login {
+            position: relative;
+            cursor: pointer;
+        }
+
+        .admin_login img {
+            width: 36px;
+            height: 36px;
+        }
+
+        .dropdown-menu {
+            display: none;
+            position: absolute;
+            top: 110%;
+            right: 0;
+            background-color: #232a31;
+            color: #fff;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            border-radius: 4px;
+            z-index: 10;
+            overflow: hidden;
+            flex-direction: column;
+        }
+
+        .dropdown-menu a {
+            padding: 10px 15px;
+            text-decoration: none;
+            padding: 10px 15px;
+            display: block;
+        }
+
+        .dropdown-menu a:hover {
+            background-color: #e6f0ff; 
+            color: #004999;           
+        }
+
+        main {
+            flex: 1;
+            margin-top: 30px;
+        }
+
+        .card-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            padding: 20px;
+        }
+
+        .card {
+            width: 300px;
+            background-color: #ffc107;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            transition: 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+        }
+
+        .event-image {
+            position: relative;
+            width: 100%;
+            height: 180px;
+            overflow: hidden;
+        }
+
+        .event-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .event-date-img {
+            position: absolute;
+            bottom: 10px;
+            right: 30px;
+            background: #ffc107;
+            color: #000;
+            font-weight: bold;
+            padding: 6px 10px;
+            border-radius: 10px;
+            font-size: 0.75rem;
+            transform: rotate(90deg);
+            transform-origin: right bottom;
+        }
+
+        .event-content {
+            padding: 16px;
+        }
+
+        .event-time {
+            font-size: 0.85rem;
+            color: #000;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .event-time .location {
+            margin-left: auto;
+            color: #000;
+        }
+
+        .event-content h3 {
+            margin: 0;
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #000;
+        }
+
+        .more-info {
+            margin-top: 12px;
+            display: inline-block;
+            color: #0056b3;
+            font-weight: bold;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .more-info:hover {
+            color: #003f8a;
+        }
+
+        .card-icon {
+            width: 22px;
+            height: 22px;
+            object-fit: contain;
+            filter: brightness(0) invert(1);
+        }
+
+        .search {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .search input {
+            padding: 10px;
+            width: 250px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+        }
+
+        .search button {
+            padding: 10px 16px;
+            background-color: #0066cc;
+            color: white;
+            border-radius: 6px;
+            border: none;
+        }
+
+        .search a {
+            padding: 10px 16px;
+            background-color: #999;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+        }
+
+        footer {
+            background: #1e2b3a;
+            color: white;
+            text-align: center;
+            padding: 30px 15px;
+        }
+
+        footer h3 {
+            margin-top: 0;
+        }
+
+        footer p {
+            margin-top: 8px 0;
+        }
+
+        .popup {
+            display: block;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #4CAF50;
+            color: #fff;
+            padding: 30px 40px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            z-index: 999;
+            width: 500px;
+            max-width: 90%;
+            font-size: 1.5rem;
+            max-width: 80%;
+            text-align: center;
+        }
+
+    </style>
+</head>
+<body>
+
+    <header>
+        <div><strong>MASJID BANDAR RINCHING</strong></div>
+        <nav>
+            <a href="{% url 'homepage' %}">HOME</a>
+            <a href="{% url 'program_list' %}" class="active">PROGRAM</a>
+            <a href="{% url 'feedback' %}">FEEDBACK</a>
+            <div class="admin_login" id="adminToggle">
+               <img src="{% static 'admin_login1.png' %}">
+                    <div class="dropdown-menu" id="adminDropdown">
+                        <a href="{% url 'admin_login' %}">ADMIN LOGIN</a>
+                        <a href="{% url 'instructor_login' %}">INSTRUCTOR LOGIN</a>
+                    </div>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <div  class="search">
+            <form method="GET" action="">
+                <input type="text" name="search" 
+                    placeholder="Search by title..." 
+                    value="{{ request.GET.search }}">
+                <button type="submit">Search</button>
+                <a href="{% url 'program_list' %}">Clear</a>
+            </form>
+        </div>
+        <div class="card-container">
+            {% for item in programs %}
+            <div class="card">
+                <div class="event-image">
+                    <img src="{{ item.image }}">
+                    <div class="event-date-img">
+                        {{ item.program.progDate|date:"d M, Y" }}
+                    </div>
+                </div>
+                
+                <div class="event-content">
+                    <p class="event-time">
+                        <img src="{% static 'time.png' %}" class="card-icon">
+                        {{ item.program.progTime|time:"H:i A" }}
+                        <span class="location">📍{{ item.program.progVenue }}</span>
+                    </p>
+                    <h3>{{ item.program.progTitle }}</h3>
+                    <a href="{% url 'more_info' item.program.id %}" class="more-info">More Info</a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        {% if announcement %}
+        <div id="popup" class="popup">
+        {{ announcement }}
+        </div>
+        {% endif %}
+
+
+    </main>
+
+    <footer>
+        <h3>MASJID BANDAR RINCHING</h3>
+        <p>Bandar Rinching</p>
+        <p>Email: masjidbandarrinching@gmail.com</p>
+        <p>&copy; 2025 Masjid Bandar Rinching. All rights reserved</p>
+    </footer>
+
+    
+</body>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const toggle = document.getElementById("adminToggle");
+        const dropdown = document.getElementById("adminDropdown");
+
+        toggle.addEventListener("click", function (e) {
+            dropdown.style.display = dropdown.style.display === "flex" ? "none" : "flex";
+            e.stopPropagation(); 
+        });
+
+        document.addEventListener("click", function (e) {
+            if (!toggle.contains(e.target)) {
+                dropdown.style.display = "none";
+            }
+        });
+    });
+
+    document.addEventListener("DOMContentLoaded", function () {
+        const popup = document.getElementById("popup");
+        if (popup) {
+            setTimeout(() => {
+                popup.style.display = "none";
+            }, 4000);
+        }
+    });
+
+</script>
+
+</html>

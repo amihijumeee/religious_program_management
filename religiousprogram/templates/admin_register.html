@@ -1,0 +1,135 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MASJID BANDAR RINCHING</title>
+    
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f9f9f9;
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .images {
+            margin: 20px;
+            position: absolute;
+            top: 10px;
+            left: 10px;
+        }
+
+        .images img {
+            width: 40px;
+            height: 40px;
+            cursor: pointer;
+        }
+
+        main {
+            flex: 1;
+            margin-top: 10%;
+        }
+
+        .form-container {
+            background: white;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .form-container h2 {
+            text-align: center;
+            color: #232a31;
+            margin-bottom: 25px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #555;
+        }
+
+        input{
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 12px;
+            background-color: #0066cc;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-weight: bold;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .submit-btn:hover {
+            background-color: #004999;
+        }
+
+        .messages {
+            color: red;
+            text-align: center;
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="images">
+        <a href="{% url 'admin_login' %}">
+            <img src="{% static 'arrow.png' %}" alt="back">
+        </a>
+    </div>
+
+    <div class="form-container">
+        <h2>REGISTER ADMIN</h2>
+        {% if messages %}
+            {% for message in messages %}
+                <div class="messages">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+
+        <form method="POST">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="username">USERNAME</label>
+                <input type="text" name="username" id="username" required>
+            </div>
+
+            <div class="form-group">
+                <label for="email">EMAIL</label>
+                <input type="email" name="email" id="email" required>
+            </div>
+
+            <div class="form-group">
+                <label for="password">PASSWORD</label>
+                <input type="password" name="password" id="password" required>
+            </div>
+
+            <button type="submit" class="submit-btn">Register</button>
+        </form>
+    </div>
+
+</body>
+</html>

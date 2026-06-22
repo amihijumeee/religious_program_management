@@ -1,0 +1,240 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MASJID BANDAR RINCHING</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+    
+        html, body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f4f4f4;
+            height: 100%;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+        }
+
+        header {
+            background: #232a31;
+            color: white;
+            padding: 20px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        header strong {
+            font-size: 20px;
+        }
+
+        nav {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500px;
+            border-radius: 5px;
+            padding: 6px 12px;
+        }
+
+        nav a:hover, nav a.active {
+            background-color: #3295ff;
+            color: white;
+            transition: 0.3s;
+        }
+
+        main {
+            flex: 1;
+            margin-top: 20px;
+        }
+
+        .admin_login {
+            position: relative;
+            cursor: pointer;
+        }
+
+        .admin_login img {
+            width: 36px;
+            height: 36px;
+        }
+
+        .dropdown-menu {
+            display: none;
+            position: absolute;
+            top: 110%;
+            right: 0;
+            background-color: #232a31;
+            color: #fff;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            border-radius: 4px;
+            z-index: 10;
+            overflow: hidden;
+            flex-direction: column;
+        }
+
+        .dropdown-menu a {
+            padding: 10px 15px;
+            text-decoration: none;
+            padding: 10px 15px;
+            display: block;
+        }
+
+        .dropdown-menu a:hover {
+            background-color: #e6f0ff; 
+            color: #004999;           
+        }
+
+        .container {
+            background: white;
+            max-width: 600px;
+            margin: 40px auto;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+        }
+
+        h2 {
+            text-align: center;
+            color: #232a31;
+        }
+        
+        label {
+            display: block;
+            margin-top: 15px;
+            font-weight: bold;
+        }
+
+        input, textarea, select {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+        }
+
+        button {
+            background: #0066cc;
+            color: white;
+            border: none;
+            padding: 12px;
+            width: 100%;
+            margin-top: 20px;
+            border-radius: 6px;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background: #004999;
+        }
+
+        footer {
+            background: #1e2b3a;
+            color: white;
+            text-align: center;
+            padding: 30px 15px;
+            margin-top: 60px;
+        }
+
+    </style>
+</head>
+<body>
+
+    <header>
+        <div><strong>MASJID BANDAR RINCHING</strong></div>
+        <nav>
+            <a href="{% url 'homepage' %}">HOME</a>
+            <a href="{% url 'program_list' %}">PROGRAM</a>
+            <a href="{% url 'feedback' %}" class="active">FEEDBACK</a>
+            <div class="admin_login" id="adminToggle">
+               <img src="{% static 'admin_login1.png' %}">
+                    <div class="dropdown-menu" id="adminDropdown">
+                        <a href="{% url 'admin_login' %}">ADMIN LOGIN</a>
+                        <a href="{% url 'instructor_login' %}">INSTRUCTOR LOGIN</a>
+                    </div>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <div class="container">
+        <h2>FEEDBACK</h2>
+            <form method="POST">
+            {% csrf_token %}
+
+            <label>NAME</label>
+            <input type="text" name="feedName" required>
+
+            <label>MESSAGE</label>
+            <textarea name="feedMessage" required></textarea>
+
+            <label>PROGRAM</label>
+            <select name="feedProgram">
+                {% for programs in program %}
+                    <option value="{{ programs.id }}">{{ programs.progTitle }}</option>
+                {% endfor %}
+            </select>
+
+            <button type="submit" onclick="showSuccess()">SUBMIT FEEDBACK</button>
+            </form>
+        </div>
+
+    </main>
+
+    <footer>
+        <h3>MASJID BANDAR RINCHING</h3>
+        <p>Bandar Rinching</p>
+        <p>Email: masjidbandarrinching@gmail.com</p>
+        <p>&copy; 2025 Masjid Bandar Rinching. All rights reserved</p>
+    </footer>
+
+    <script>
+        function showSuccess() {
+            const name = document.querySelector('[name="feedName"]').value.trim();
+            const message = document.querySelector('[name="feedMessage"]').value.trim();
+
+
+        if (!name || !message ) {
+            alert("Please fill in all required fields!");
+            return false; 
+        }
+
+        alert("Successfully Add Your Feedback!");
+        return true; 
+    }
+    </script>
+
+</body>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const toggle = document.getElementById("adminToggle");
+        const dropdown = document.getElementById("adminDropdown");
+
+        toggle.addEventListener("click", function (e) {
+            dropdown.style.display = dropdown.style.display === "flex" ? "none" : "flex";
+            e.stopPropagation(); 
+        });
+
+        document.addEventListener("click", function (e) {
+            if (!toggle.contains(e.target)) {
+                dropdown.style.display = "none";
+            }
+        });
+    });
+</script>
+
+</html>

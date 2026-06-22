@@ -1,0 +1,310 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>MASJID BANDAR RINCHING</title>
+  <style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    html, body {
+        font-family: Arial, Helvetica, sans-serif;
+        background: #f4f4f4;
+        height: 100%;
+        color: #333;
+        display: flex;
+        flex-direction: column;
+    }
+
+    header {
+        background: #232a31;
+        color: white;
+        padding: 20px 30px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+    }
+
+    header strong {
+        font-size: 20px;
+    }
+
+    nav {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+    }
+
+    nav a {
+        color: white;
+        text-decoration: none;
+        font-weight: 500;
+        border-radius: 5px;
+        padding: 6px 12px;
+    }
+
+    nav a:hover, nav a.active {
+        background-color: #3295ff;
+        transition: 0.3s;
+    }
+
+    .admin_login {
+        position: relative;
+        cursor: pointer;
+    }
+
+    .admin_login img {
+        width: 36px;
+        height: 36px;
+    }
+
+    .dropdown-menu {
+        display: none;
+        position: absolute;
+        top: 110%;
+        right: 0;
+        background-color: #232a31;
+        color: #fff;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        border-radius: 4px;
+        z-index: 10;
+        overflow: hidden;
+        flex-direction: column;
+    }
+
+    .dropdown-menu a {
+        padding: 10px 15px;
+        display: block;
+    }
+
+    .dropdown-menu a:hover {
+        background-color: #e6f0ff;
+        color: #004999;
+    }
+
+    main {
+        flex: 1;
+        margin-top: 30px;
+    }
+
+    .container {
+        display: flex;
+        justify-content: space-between;
+        padding: 50px 100px;
+    }
+
+    .left {
+        flex: 1.5;
+        padding-right: 50px;
+    }
+
+    .right {
+        flex: 1;
+        background: white;
+        border-radius: 16px;
+        padding: 30px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+        font-size: 36px;
+        margin-bottom: 10px;
+    }
+
+    .date {
+        background-color: #1c4166;
+        color: #fff;
+        display: inline-block;
+        padding: 8px 20px;
+        border-radius: 25px;
+        margin-bottom: 20px;
+    }
+
+    .program-banner {
+        width: 100%;
+        max-height: 250px;
+        object-fit: cover;
+        border-radius: 12px;
+        margin: 20px 0;
+    }
+
+    .info-group {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 20px;
+    }
+
+    .info-group label {
+        font-weight: bold;
+        color: #444;
+        width: 100%;
+    }
+
+    .info-group p {
+        margin: 5px 0;
+        width: 100%;
+    }
+
+    .registration {
+        display: inline-block;
+        padding: 12px 24px;
+        background-color: #00aaff;
+        color: white;
+        text-decoration: none;
+        border-radius: 8px;
+        margin-top: 20px;
+    }
+
+    .registration:hover {
+        background-color: #0077cc;
+        transition: background 0.3s;
+    }
+
+    .status-badge {
+        display: inline-block;
+        padding: 6px 14px;
+        font-size: 0.8rem;
+        font-weight: bold;
+        border-radius: 20px;
+        margin: 12px 0;
+    }
+
+    .status-badge.open {
+        background-color: #28a745;
+        color: white;
+    }
+
+        .status-badge.full {
+        background-color: #dc3545;
+        color: white;
+    }
+
+    .back {
+        display: block;
+        padding: 12px 24px;
+        background-color: #555;
+        color: white;
+        text-decoration: none;
+        border-radius: 8px;
+        margin-top: 20px;
+        width: fit-content;
+    }
+
+    .back:hover {
+        background-color: #444;
+        transition: background 0.3s;
+    }
+
+    footer {
+        background: #1e2b3a;
+        color: white;
+        text-align: center;
+        padding: 30px 15px;
+    }
+
+    footer h3 {
+      margin-top: 0;
+    }
+
+  </style>
+</head>
+<body>
+
+  <header>
+    <div><strong>MASJID BANDAR RINCHING</strong></div>
+    <nav>
+      <a href="{% url 'homepage' %}">HOME</a>
+      <a href="{% url 'program_list' %}" class="active">PROGRAM</a>
+      <a href="{% url 'feedback' %}">FEEDBACK</a>
+      <div class="admin_login" id="adminToggle">
+        <img src="{% static 'admin_login1.png' %}">
+        <div class="dropdown-menu" id="adminDropdown">
+          <a href="{% url 'admin_login' %}">ADMIN LOGIN</a>
+          <a href="{% url 'instructor_login' %}">INSTRUCTOR LOGIN</a>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    <div class="container">
+      <div class="left">
+        <div class="date">{{ program.progDate|date:"d M, y" }}</div>
+        <img src="{% static 'prayerroom.jpeg' %}" alt="Program Image" class="program-banner">
+        <h1>{{ program.progTitle }}</h1>
+        <p>{{ program.progDescription }}</p>
+
+        {% if program.progRegistration %}
+          {% if registration_count <= program.progCapacity %}
+            <span class="status-badge open">OPEN</span>
+            <p>THIS PROGRAM REQUIRED REGISTRATION. PLEASE REGISTER TO JOIN.</p>
+            <a href="{% url 'register_program' program.id %}" class="registration">Register Now</a>
+          {% else %}
+            <span class="status-badge full">FULL</span>
+            <p>REGISTRATION IS FULL. NO MORE SLOT AVAILABLE.</p>
+          {% endif %}
+        {% else %}
+          <p>THIS PROGRAM IS OPEN FOR EVERYONE.</p>
+        {% endif %}
+
+        <a href="{% url 'program_list' %}" class="back">Back</a>
+      </div>
+
+      <div class="right">
+        <div class="info-group">
+          <label>Date:</label>
+          <p>{{ program.progDate|date:"d M, Y" }}</p>
+        </div>
+        <div class="info-group">
+          <label>Time:</label>
+          <p>{{ program.progTime|time:"H:i A" }}</p>
+        </div>
+        <div class="info-group">
+          <label>Instructor:</label>
+          <p>{{ program.progInstructor.insName }}</p>
+        </div>
+        <div class="info-group">
+          <label>Venue:</label>
+          <p>{{ program.progVenue }}</p>
+        </div>
+        <div class="info-group">
+          <label>Capacity:</label>
+          <p>{{ program.progCapacity }}</p>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <h3>MASJID BANDAR RINCHING</h3>
+    <p>Bandar Rinching</p>
+    <p>Email: masjidbandarrinching@gmail.com</p>
+    <p>&copy; 2025 Masjid Bandar Rinching. All rights reserved</p>
+  </footer>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const toggle = document.getElementById("adminToggle");
+      const dropdown = document.getElementById("adminDropdown");
+
+      toggle.addEventListener("click", function (e) {
+        dropdown.style.display = dropdown.style.display === "flex" ? "none" : "flex";
+        e.stopPropagation();
+      });
+
+      document.addEventListener("click", function (e) {
+        if (!toggle.contains(e.target)) {
+          dropdown.style.display = "none";
+        }
+      });
+    });
+  </script>
+</body>
+</html>

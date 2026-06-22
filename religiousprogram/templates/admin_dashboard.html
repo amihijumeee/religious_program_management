@@ -1,0 +1,178 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MASJID BANDAR RINCHING</title>
+
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        .container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        .sidebar {
+            width: 220px;
+            background-color: #232a31;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+            gap: 20px;
+        }
+
+        .sidebar .brand {
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .sidebar nav {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .sidebar nav a {
+            color: white;
+            text-decoration: none;
+            padding: 10px;
+            border-radius: 4px;
+        }
+
+        .sidebar nav a:hover,
+        .sidebar nav a.active {
+            background-color: #004999;
+        }
+
+        .sidebar .welcome-msg {
+            font-size: 20px;
+            font-weight: bold;
+            color: #e0e0e0;
+        }
+
+
+        main.dashboard {
+            flex-grow: 1;
+            padding: 40px 30px;
+            width: 100%;
+        }
+
+        .count-group {
+            display: grid;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .count {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+            flex: 1 1 220px;
+            padding: 20px;
+            text-align: center;
+            position: relative;
+            min-height: 130px;
+        }
+
+        .count h3 {
+            margin: 0 0 10px;
+            color: #0066cc;
+        }
+
+        .count p {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .count-btn {
+            position: absolute;
+            bottom: 15px;
+            right: 15px;
+            padding: 8px 16px;
+            background-color: #0066cc;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-weight: bold;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .count-btn:hover {
+            background-color: #004999;
+        }
+
+    </style>
+
+</head>
+<body>
+    <div class="container">
+        <aside class="sidebar">
+            <div class="brand">
+                <strong>MASJID BANDAR RINCHING</strong>
+            </div>
+            
+            <div class="welcome-msg">
+                Welcome, {{ request.user.username }}!
+            </div>
+            
+                <nav>
+                <a href="#" class="active">Dashboard</a>
+                <a href="{% url 'addprogram' %}">Add Program</a>
+                <a href="{% url 'add_instructor' %}">Add Instructor</a>
+                <a href="{% url 'dashboard_program' %}">Manage Program</a>
+                <a href="{% url 'dashboard_register' %}">Manage Registration</a>
+                <a href="{% url 'dashboard_instructor' %}">Manage Instructor</a>
+                <a href="{% url 'dashboard_feedback' %}">Manage Feedback</a>
+                <a href="{% url 'homepage' %}">Logout</a>
+            </nav>
+        </aside>
+
+        <main class="dashboard">
+            <div class="count-group">
+                <div class="count">
+                    <h3>PROGRAM</h3>
+                    <p>{{ program_count }}</p>
+                    <a href="{% url 'dashboard_program' %}">
+                        <button class="count-btn" type="submit">MORE INFO</button>
+                    </a>
+                </div>
+
+                <div class="count">
+                    <h3>REGISTRATION</h3>
+                    <p>{{ registration_count }}</p>
+                    <a href="{% url 'dashboard_register' %}">
+                        <button class="count-btn" type="submit">MORE INFO</button>
+                    </a>
+                </div>
+
+                <div class="count">
+                    <h3>INSTRUCTOR</h3>
+                    <p>{{ instructor_count }}</p>
+                    <a href="{% url 'dashboard_instructor' %}">
+                        <button class="count-btn" type="submit">MORE INFO</button>
+                    </a>
+                </div>
+
+                <div class="count">
+                    <h3>FEEDBACK</h3>
+                    <p>{{ feedback_count }}</p>
+                    <a href="{% url 'dashboard_feedback' %}">
+                        <button class="count-btn" type="submit">MORE INFO</button>
+                    </a>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+</html>
